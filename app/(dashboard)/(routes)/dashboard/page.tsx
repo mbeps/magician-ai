@@ -1,7 +1,6 @@
-import { Button } from "@/components/ui/button";
-
+/**
+ * This route is protected and is not accessible while user is not authenticated.
+ */
 export default function DashboardPage() {
-  return (
-    <Button>Click</Button>
-  )
+  return <div>Dashboard</div>;
 }
