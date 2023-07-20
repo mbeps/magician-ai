@@ -1,0 +1,5 @@
+{
+  "editor.formatOnSave": true,
+  "files.autoSave": "off",
+  "testing.automaticallyOpenPeekView": "never"
+}
