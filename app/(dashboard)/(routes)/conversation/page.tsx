@@ -80,6 +80,7 @@ const ConversationPage: React.FC<ConversatioProps> = () => {
                 grid
                 grid-cols-12
                 gap-2
+								shadow-lg
               "
             >
               <FormField
@@ -110,7 +111,7 @@ const ConversationPage: React.FC<ConversatioProps> = () => {
         </div>
         <div className="space-y-4 mt-4">
           {isLoading && (
-            <div className="p-8 rounded-xl w-full flex items-center justify-center bg-muted">
+            <div className="p-8 rounded-xl w-full flex items-center justify-center bg-muted shadow-md">
               <Loader />
             </div>
           )}
@@ -122,7 +123,7 @@ const ConversationPage: React.FC<ConversatioProps> = () => {
               <div
                 key={message.content}
                 className={cn(
-                  "p-8 w-full flex items-start gap-x-8 rounded-lg",
+                  "p-8 w-full flex items-start gap-x-8 rounded-xl shadow-md",
                   message.role === "user"
                     ? "bg-white border border-black/10"
                     : "bg-muted"
