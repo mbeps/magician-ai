@@ -2,7 +2,7 @@
 
 import { Heading } from "@/components/heading/Heading";
 import axios from "axios";
-import { MessageSquare } from "lucide-react";
+import { Code } from "lucide-react";
 import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
@@ -18,10 +18,11 @@ import { Loader } from "@/components/loader/Loader";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/avatar/UserAvatar";
 import { BotAvatar } from "@/components/avatar/BotAvatar";
+import ReactMarkdown from "react-markdown";
 
-type ConversationProps = {};
+type CodeProps = {};
 
-const ConversationPage: React.FC<ConversationProps> = () => {
+const CodePage: React.FC<CodeProps> = () => {
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
@@ -58,11 +59,11 @@ const ConversationPage: React.FC<ConversationProps> = () => {
   return (
     <div>
       <Heading
-        title="Conversation"
-        description="Our most advanced conversation model."
-        icon={MessageSquare}
-        iconColor="text-violet-500"
-        bgColor="bg-violet-500/10"
+        title="Code Generation"
+        description="Code generation from descriptions."
+        icon={Code}
+        iconColor="text-green-700"
+        bgColor="bg-green-700/10"
       />
       <div className="px-4 lg:px-8">
         <div>
@@ -91,7 +92,7 @@ const ConversationPage: React.FC<ConversationProps> = () => {
                       <Input
                         className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                         disabled={isLoading}
-                        placeholder="How do I calculate the radius of a circle?"
+                        placeholder="Write a Python function to calculate ... "
                         {...field}
                       />
                     </FormControl>
@@ -130,7 +131,21 @@ const ConversationPage: React.FC<ConversationProps> = () => {
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                <p className="text-sm">{message.content}</p>
+                <ReactMarkdown
+                  components={{
+                    pre: ({ node, ...props }) => (
+                      <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
+                        <pre {...props} />
+                      </div>
+                    ),
+                    code: ({ node, ...props }) => (
+                      <code className="bg-black/10 rounded-lg p-1" {...props} />
+                    ),
+                  }}
+                  className="text-sm overflow-hidden leading-7"
+                >
+                  {message.content || ""}
+                </ReactMarkdown>
               </div>
             ))}
           </div>
@@ -139,4 +154,4 @@ const ConversationPage: React.FC<ConversationProps> = () => {
     </div>
   );
 };
-export default ConversationPage;
+export default CodePage;
