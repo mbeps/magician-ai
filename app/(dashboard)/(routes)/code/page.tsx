@@ -2,7 +2,7 @@
 
 import { Heading } from "@/components/heading/Heading";
 import axios from "axios";
-import { MessageSquare } from "lucide-react";
+import { Code } from "lucide-react";
 import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
@@ -19,9 +19,9 @@ import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/avatar/UserAvatar";
 import { BotAvatar } from "@/components/avatar/BotAvatar";
 
-type ConversatioProps = {};
+type CodeProps = {};
 
-const ConversationPage: React.FC<ConversatioProps> = () => {
+const CodePage: React.FC<CodeProps> = () => {
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
@@ -58,11 +58,11 @@ const ConversationPage: React.FC<ConversatioProps> = () => {
   return (
     <div>
       <Heading
-        title="Conversation"
-        description="Our most advanced conversation model."
-        icon={MessageSquare}
-        iconColor="text-violet-500"
-        bgColor="bg-violet-500/10"
+        title="Code Generation"
+        description="Code generation from descriptions."
+        icon={Code}
+        iconColor="text-green-700"
+        bgColor="bg-green-700/10"
       />
       <div className="px-4 lg:px-8">
         <div>
@@ -91,7 +91,7 @@ const ConversationPage: React.FC<ConversatioProps> = () => {
                       <Input
                         className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                         disabled={isLoading}
-                        placeholder="How do I calculate the radius of a circle?"
+                        placeholder="Write a Python function to calculate ... "
                         {...field}
                       />
                     </FormControl>
@@ -139,4 +139,4 @@ const ConversationPage: React.FC<ConversatioProps> = () => {
     </div>
   );
 };
-export default ConversationPage;
+export default CodePage;
