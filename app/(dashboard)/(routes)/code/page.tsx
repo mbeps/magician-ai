@@ -19,9 +19,9 @@ import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/avatar/UserAvatar";
 import { BotAvatar } from "@/components/avatar/BotAvatar";
 
-type ConversationProps = {};
+type ConversatioProps = {};
 
-const ConversationPage: React.FC<ConversationProps> = () => {
+const ConversationPage: React.FC<ConversatioProps> = () => {
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
