@@ -76,7 +76,7 @@ const ConversationPage: React.FC<ConversationProps> = () => {
                 p-4 
                 px-3 
                 md:px-6 
-                focus-within:shadow-sm
+                focus-within:shadow-xl
                 grid
                 grid-cols-12
                 gap-2
