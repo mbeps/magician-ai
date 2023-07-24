@@ -1,24 +1,24 @@
 "use client";
 
+import { BotAvatar } from "@/components/avatar/BotAvatar";
+import { UserAvatar } from "@/components/avatar/UserAvatar";
+import { Empty } from "@/components/empty/Empty";
 import { Heading } from "@/components/heading/Heading";
+import { Loader } from "@/components/loader/Loader";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Code } from "lucide-react";
-import React, { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { formSchema } from "./constants";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
-import { Empty } from "@/components/empty/Empty";
-import { Loader } from "@/components/loader/Loader";
-import { cn } from "@/lib/utils";
-import { UserAvatar } from "@/components/avatar/UserAvatar";
-import { BotAvatar } from "@/components/avatar/BotAvatar";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import ReactMarkdown from "react-markdown";
+import * as z from "zod";
+import { formSchema } from "./constants";
 
 type CodeProps = {};
 
