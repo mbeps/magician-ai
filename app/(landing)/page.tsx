@@ -1,8 +1,13 @@
-import React from "react";
+import { LandingHero } from "@/components/pages/landing/LandingHero";
+import { LandingNavbar } from "@/components/pages/landing/LandingNavbar";
 
-type pageProps = {};
-
-const page: React.FC<pageProps> = () => {
-  return <div>This is the landing page for this app</div>;
+const LandingPage = () => {
+  return (
+    <div className="h-full ">
+      <LandingNavbar />
+      <LandingHero />
+    </div>
+  );
 };
-export default page;
+
+export default LandingPage;
