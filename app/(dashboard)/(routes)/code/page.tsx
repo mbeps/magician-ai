@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import ReactMarkdown from "react-markdown";
 import * as z from "zod";
 import { formSchema } from "./constants";
+import { toast } from "react-hot-toast";
 
 type CodeProps = {};
 
@@ -51,6 +52,7 @@ const CodePage: React.FC<CodeProps> = () => {
       form.reset(); // clear input
     } catch (error: any) {
       console.log(error);
+      toast.error("Could not generate code");
     } finally {
       router.refresh();
     }
