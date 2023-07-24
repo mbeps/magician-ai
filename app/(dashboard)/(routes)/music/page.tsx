@@ -1,23 +1,19 @@
 "use client";
 
-import { Heading } from "@/components/heading/Heading";
-import axios from "axios";
-import { MessageSquare, Music } from "lucide-react";
-import React, { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { formSchema } from "./constants";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { ChatCompletionRequestMessage } from "openai";
 import { Empty } from "@/components/empty/Empty";
+import { Heading } from "@/components/heading/Heading";
 import { Loader } from "@/components/loader/Loader";
-import { cn } from "@/lib/utils";
-import { UserAvatar } from "@/components/avatar/UserAvatar";
-import { BotAvatar } from "@/components/avatar/BotAvatar";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { Music } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { formSchema } from "./constants";
 
 type MusicProps = {};
 
@@ -44,7 +40,7 @@ const MusicPage: React.FC<MusicProps> = () => {
       setMusic(response.data.audio);
       form.reset();
     } catch (error: any) {
-      console.log("Music Error");
+      console.log("");
     } finally {
       router.refresh();
     }
