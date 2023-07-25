@@ -18,6 +18,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { formSchema } from "./constants";
+import { toast } from "react-hot-toast";
 
 type ConversationProps = {};
 
@@ -49,6 +50,7 @@ const ConversationPage: React.FC<ConversationProps> = () => {
 
       form.reset(); // clear input
     } catch (error: any) {
+      toast.error("Could not respond");
       console.log(error);
     } finally {
       router.refresh();
