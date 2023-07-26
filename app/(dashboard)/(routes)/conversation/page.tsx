@@ -19,11 +19,13 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { formSchema } from "./constants";
 import { toast } from "react-hot-toast";
+import { useProModal } from "@/hooks/useProModal";
 
 type ConversationProps = {};
 
 const ConversationPage: React.FC<ConversationProps> = () => {
   const router = useRouter();
+  const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -50,8 +52,12 @@ const ConversationPage: React.FC<ConversationProps> = () => {
 
       form.reset(); // clear input
     } catch (error: any) {
-      toast.error("Could not respond");
-      console.log(error);
+      if (error.response.status === 403) {
+        proModal.onOpen();
+      } else {
+        console.log(error);
+        toast.error("Could not answer your question");
+      }
     } finally {
       router.refresh();
     }

@@ -15,11 +15,13 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { formSchema } from "./constants";
 import { toast } from "react-hot-toast";
+import { useProModal } from "@/hooks/useProModal";
 
 type MusicProps = {};
 
 const MusicPage: React.FC<MusicProps> = () => {
   const router = useRouter();
+  const proModal = useProModal();
   const [music, setMusic] = useState<string>();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,8 +43,12 @@ const MusicPage: React.FC<MusicProps> = () => {
       setMusic(response.data.audio);
       form.reset();
     } catch (error: any) {
-      toast.error("Could not generate music");
-      console.log(error);
+      if (error.response.status === 403) {
+        proModal.onOpen();
+      } else {
+        console.log(error);
+        toast.error("Could not generate music");
+      }
     } finally {
       router.refresh();
     }

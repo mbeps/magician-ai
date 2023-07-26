@@ -6,19 +6,22 @@ import { Loader } from "@/components/loader/Loader";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useProModal } from "@/hooks/useProModal";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { VideoIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { formSchema } from "./constants";
-import { FileAudio, VideoIcon } from "lucide-react";
+import toast from "react-hot-toast";
 
 type VideoProps = {};
 
 const MusicPage: React.FC<VideoProps> = () => {
   const router = useRouter();
+  const proModal = useProModal();
   const [video, setVideo] = useState<string>();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -39,7 +42,12 @@ const MusicPage: React.FC<VideoProps> = () => {
       setVideo(response.data[0]);
       form.reset();
     } catch (error: any) {
-      console.log("Video Error");
+      if (error.response.status === 403) {
+        proModal.onOpen();
+      } else {
+        console.log(error);
+        toast.error("Could not generate video");
+      }
     } finally {
       router.refresh();
     }
