@@ -11,6 +11,12 @@
       "command": "yarn dev"
     },
     {
+      "name": "Next.js: debug server-side with Stripe",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "yarn dev && stripe listen --forward-to localhost:3000/api/webhook"
+    },
+    {
       "name": "Next.js: debug client-side",
       "type": "msedge",
       "request": "launch",
