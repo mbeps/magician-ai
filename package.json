@@ -9,7 +9,8 @@
     "lint": "next lint",
     "prisma:generate": "yarn prisma generate",
     "prisma:push": "yarn prisma db push",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "stripe:local": "stripe listen --forward-to localhost:3000/api/webhook"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.22.1",
@@ -42,11 +43,13 @@
     "react-hot-toast": "^2.4.1",
     "react-markdown": "^8.0.7",
     "replicate": "^0.12.3",
+    "stripe": "^12.14.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.6",
     "typescript": "5.1.6",
     "typewriter-effect": "^2.20.1",
+    "zustand": "^4.3.9",
     "zod": "^3.21.4"
   },
   "devDependencies": {

@@ -1,23 +1,12 @@
 "use client";
 
-import { Heading } from "@/components/heading/Heading";
-import axios from "axios";
-import { Download, ImageIcon } from "lucide-react";
-import React, { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { amountOptions, formSchema, resolutionOptions } from "./constants";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { ChatCompletionRequestMessage } from "openai";
 import { Empty } from "@/components/empty/Empty";
+import { Heading } from "@/components/heading/Heading";
 import { Loader } from "@/components/loader/Loader";
-import { cn } from "@/lib/utils";
-import { UserAvatar } from "@/components/avatar/UserAvatar";
-import { BotAvatar } from "@/components/avatar/BotAvatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardFooter } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -25,14 +14,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Card, CardFooter } from "@/components/ui/card";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { Download, ImageIcon } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import * as z from "zod";
+import { amountOptions, formSchema, resolutionOptions } from "./constants";
+import { useProModal } from "@/hooks/useProModal";
 
 type ImageProps = {};
 
 const ImagePage: React.FC<ImageProps> = () => {
   const router = useRouter();
+  const proModal = useProModal();
   const [images, setImages] = useState<string[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -58,8 +56,12 @@ const ImagePage: React.FC<ImageProps> = () => {
 
       setImages(urls);
     } catch (error: any) {
-      console.log(error);
-      toast.error("Could generate images");
+      if (error.response.status === 403) {
+        proModal.onOpen();
+      } else {
+        console.log(error);
+        toast.error("Could not generate image");
+      }
     } finally {
       router.refresh();
     }

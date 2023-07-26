@@ -20,10 +20,12 @@ import ReactMarkdown from "react-markdown";
 import * as z from "zod";
 import { formSchema } from "./constants";
 import { toast } from "react-hot-toast";
+import { useProModal } from "@/hooks/useProModal";
 
 type CodeProps = {};
 
 const CodePage: React.FC<CodeProps> = () => {
+  const proModal = useProModal();
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
@@ -51,8 +53,12 @@ const CodePage: React.FC<CodeProps> = () => {
 
       form.reset(); // clear input
     } catch (error: any) {
-      console.log(error);
-      toast.error("Could not generate code");
+      if (error.response.status === 403) {
+        proModal.onOpen();
+      } else {
+        console.log(error);
+        toast.error("Could not generate code");
+      }
     } finally {
       router.refresh();
     }

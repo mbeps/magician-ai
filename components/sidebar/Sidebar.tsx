@@ -102,7 +102,7 @@ export const Sidebar = ({
           ))}
         </div>
       </div>
-      <FreeCounter apiLimitCount={apiLimitCount} isPro={false} />
+      <FreeCounter apiLimitCount={apiLimitCount} isPro={isPro} />
     </div>
   );
 };
