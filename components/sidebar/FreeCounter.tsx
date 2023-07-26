@@ -23,8 +23,8 @@ export const FreeCounter = ({
     setMounted(true);
   }, []);
 
-  // prevent hydration errors
-  if (!mounted) {
+  // prevent hydration errors `isMounted`
+  if (!mounted || isPro) {
     return null;
   }
 

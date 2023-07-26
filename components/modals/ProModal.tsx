@@ -31,7 +31,7 @@ export const ProModal = () => {
 
       window.location.href = response.data.url;
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Could not subscribe");
     } finally {
       setLoading(false);
     }
