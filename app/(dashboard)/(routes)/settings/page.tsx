@@ -3,8 +3,12 @@ import { Heading } from "@/components/heading/Heading";
 import { checkSubscription } from "@/lib/subscriptions";
 import { Settings } from "lucide-react";
 
+/**
+ * Settings page which allows users to manage their account settings.
+ * @returns (JSX.Element): Settings page allows users to manage their account settings.
+ */
 const SettingsPage = async () => {
-  const isPro = await checkSubscription();
+  const isPro = await checkSubscription(); // check if the user is subscribed
 
   return (
     <div>

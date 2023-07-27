@@ -3,6 +3,12 @@ import { Sidebar } from "@/components/sidebar/Sidebar";
 import { getApiLimitCount } from "@/lib/api-limit";
 import { checkSubscription } from "@/lib/subscriptions";
 
+/**
+ * Specifies the layout for all pages in the dashboard folder.
+ * It adds a sidebar and navbar to the page.
+ * @param {children} (React.ReactNode): children components (pages from the dashboard folder)
+ * @returns (JSX.Element): dashboard layout for all pages in the dashboard folder
+ */
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   /**
    * Must be passed from a server component (layout) to the client component.

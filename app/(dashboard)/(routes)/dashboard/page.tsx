@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { tools } from "@/constants/constants";
 
 /**
+ * Dashboard page where users can select the tool they want to use.
  * This route is protected and is not accessible while user is not authenticated.
  */
 export default function DashboardPage() {
