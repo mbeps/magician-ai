@@ -10,6 +10,11 @@ import { Button } from "@/components/ui/button";
 
 const font = Montserrat({ weight: "600", subsets: ["latin"] });
 
+/**
+ * Component that displays the landing navbar.
+ * This navbar is only used in the landing page.
+ * The navbar has a logo, a button to get started, and a button to login.
+ */
 export const LandingNavbar = () => {
   const { isSignedIn } = useAuth();
 

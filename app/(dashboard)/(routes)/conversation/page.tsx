@@ -23,11 +23,21 @@ import { useProModal } from "@/hooks/useProModal";
 
 type ConversationProps = {};
 
+/**
+ * Code page allows users to have conversations and generate text.
+ * It uses the OpenAI API to generate text from a prompt.
+ * It returns a code snippet with explanation.
+ * If the user is not subscribed and there are no remaining free tries, it will show a modal.
+ */
 const ConversationPage: React.FC<ConversationProps> = () => {
   const router = useRouter();
   const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
+  /**
+   * Form for the prompt for the code generation.
+   * Zod used for validation.
+   */
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,14 +47,27 @@ const ConversationPage: React.FC<ConversationProps> = () => {
 
   const isLoading = form.formState.isSubmitting;
 
+  /**
+   * Submit the prompt to the API to generate a response.
+   * If the user is not subscribed and there are no remaining free tries, it will show a modal.
+   * @param values (string) prompt for the code generation
+   */
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      /**
+       * Message to be sent to the API.
+       * It contains the prompt and the role (user or bot).
+       */
       const userMessage: ChatCompletionRequestMessage = {
         role: "user",
         content: values.prompt,
       };
       const newMessages = [...messages, userMessage];
 
+      /**
+       * Send the messages to the API.
+       * Stores the response.
+       */
       const response = await axios.post("/api/conversation", {
         messages: newMessages,
       });
@@ -52,6 +75,7 @@ const ConversationPage: React.FC<ConversationProps> = () => {
 
       form.reset(); // clear input
     } catch (error: any) {
+      // if the user is not subscribed and there are no remaining free tries, it will show a modal
       if (error.response.status === 403) {
         proModal.onOpen();
       } else {

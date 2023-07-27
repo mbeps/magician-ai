@@ -6,6 +6,10 @@ import { useAuth } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 
+/**
+ * This component displays the landing hero.
+ * @returns (JSX.Element): landing hero component
+ */
 export const LandingHero = () => {
   const { isSignedIn } = useAuth();
 

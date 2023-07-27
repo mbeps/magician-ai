@@ -19,11 +19,21 @@ import { useProModal } from "@/hooks/useProModal";
 
 type MusicProps = {};
 
+/**
+ * Music page allows users to generate music from a prompt.
+ * It uses the Replicate AI API to generate music from a prompt.
+ * If the user is not subscribed and there are no remaining free tries, it will show a modal.
+ * @returns (JSX.Element): Music page allows users to generate music.
+ */
 const MusicPage: React.FC<MusicProps> = () => {
   const router = useRouter();
   const proModal = useProModal();
   const [music, setMusic] = useState<string>();
 
+  /**
+   * Form for the prompt for the music generation.
+   * Zod used for validation.
+   */
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,16 +43,21 @@ const MusicPage: React.FC<MusicProps> = () => {
 
   const isLoading = form.formState.isSubmitting;
 
+  /**
+   * Submit the prompt to the API to generate music.
+   * If the user is not subscribed and there are no remaining free tries, it will show a modal.
+   * @param values (string) prompt for the music generation
+   */
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setMusic(undefined);
+      setMusic(undefined); // reset music
 
-      const response = await axios.post("/api/music", values);
-      console.log(response);
+      const response = await axios.post("/api/music", values); // call API to generate music
 
-      setMusic(response.data.audio);
-      form.reset();
+      setMusic(response.data.audio); // store music
+      form.reset(); // reset form to empty
     } catch (error: any) {
+      // if the user is not subscribed and there are no remaining free tries, it will show a modal
       if (error.response.status === 403) {
         proModal.onOpen();
       } else {

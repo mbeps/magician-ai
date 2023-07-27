@@ -19,11 +19,20 @@ import toast from "react-hot-toast";
 
 type VideoProps = {};
 
-const MusicPage: React.FC<VideoProps> = () => {
+/**
+ * Video page allows users to generate video from a prompt.
+ * It uses the Replicate AI API to generate video from a prompt.
+ * If the user is not subscribed and there are no remaining free tries, it will show a modal.
+ */
+const VideoPage: React.FC<VideoProps> = () => {
   const router = useRouter();
   const proModal = useProModal();
   const [video, setVideo] = useState<string>();
 
+  /**
+   * Form for the prompt for the video generation.
+   * Zod used for validation.
+   */
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,15 +42,21 @@ const MusicPage: React.FC<VideoProps> = () => {
 
   const isLoading = form.formState.isSubmitting;
 
+  /**
+   * Submit the prompt to the API to generate video.
+   * If the user is not subscribed and there are no remaining free tries, it will show a modal.
+   * @param values (string) prompt for the video generation
+   */
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setVideo(undefined);
+      setVideo(undefined); // reset video
 
-      const response = await axios.post("/api/video", values);
+      const response = await axios.post("/api/video", values); // call API to generate video
 
-      setVideo(response.data[0]);
-      form.reset();
+      setVideo(response.data[0]); // store video
+      form.reset(); // reset form to empty
     } catch (error: any) {
+      // if the user is not subscribed and there are no remaining free tries, it will show a modal
       if (error.response.status === 403) {
         proModal.onOpen();
       } else {
@@ -124,4 +139,4 @@ const MusicPage: React.FC<VideoProps> = () => {
   );
 };
 
-export default MusicPage;
+export default VideoPage;

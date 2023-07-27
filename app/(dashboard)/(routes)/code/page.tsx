@@ -24,11 +24,21 @@ import { useProModal } from "@/hooks/useProModal";
 
 type CodeProps = {};
 
+/**
+ * Code page allows users to generate code.
+ * It uses the OpenAI API to generate code from a prompt.
+ * It returns a code snippet with explanation.
+ * If the user is not subscribed and there are no remaining free tries, it will show a modal.
+ */
 const CodePage: React.FC<CodeProps> = () => {
-  const proModal = useProModal();
+  const proModal = useProModal(); // modal for non-subscribers
   const router = useRouter();
-  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]); // messages from the bot
 
+  /**
+   * Form for the prompt for the code generation.
+   * Zod used for validation.
+   */
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,21 +48,31 @@ const CodePage: React.FC<CodeProps> = () => {
 
   const isLoading = form.formState.isSubmitting;
 
+  /**
+   * Submit the prompt to the API to generate code.
+   * If the user is not subscribed and there are no remaining free tries, it will show a modal.
+   * @param values (string) prompt for the code generation
+   */
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const userMessage: ChatCompletionRequestMessage = {
-        role: "user",
-        content: values.prompt,
+        role: "user", // user message
+        content: values.prompt, // prompt for the code generation
       };
-      const newMessages = [...messages, userMessage];
+      const newMessages = [...messages, userMessage]; // add user message to the messages
 
+      /**
+       * Send the messages to the API to generate code.
+       * Store the response in the messages.
+       */
       const response = await axios.post("/api/conversation", {
         messages: newMessages,
       });
-      setMessages((current) => [...current, userMessage, response.data]);
+      setMessages((current) => [...current, userMessage, response.data]); // add the response to the messages
 
       form.reset(); // clear input
     } catch (error: any) {
+      // if the user is not subscribed and there are no remaining free tries, it will show a modal
       if (error.response.status === 403) {
         proModal.onOpen();
       } else {

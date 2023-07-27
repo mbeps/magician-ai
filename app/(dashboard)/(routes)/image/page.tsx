@@ -28,11 +28,22 @@ import { useProModal } from "@/hooks/useProModal";
 
 type ImageProps = {};
 
+/**
+ * Page where users can generate images from a prompt.
+ * It uses the OpenAI API to generate images from a prompt.
+ * User can specify the amount of images to generate and the resolution.
+ * If the user is not subscribed and there are no remaining free tries, it will show a modal.
+ * @returns (JSX.Element): Image page allows users to generate images.
+ */
 const ImagePage: React.FC<ImageProps> = () => {
   const router = useRouter();
   const proModal = useProModal();
   const [images, setImages] = useState<string[]>([]);
 
+  /**
+   * Form for the prompt for the image generation.
+   * Zod used for validation.
+   */
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,18 +55,25 @@ const ImagePage: React.FC<ImageProps> = () => {
 
   const isLoading = form.formState.isSubmitting;
 
+  /**
+   * Submit the prompt to the API to generate images.
+   * If the user is not subscribed and there are no remaining free tries, it will show a modal.
+   * @param values (string) prompt for the image generation
+   */
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setImages([]);
+      setImages([]); // empty the images array if there are any images from previous results
 
-      const response = await axios.post("/api/image", values);
+      const response = await axios.post("/api/image", values); // send the prompt to the API
 
+      // get the urls of the generated images
       const urls: string[] = response.data.map(
         (image: { url: string }) => image.url
       );
 
       setImages(urls);
     } catch (error: any) {
+      // if the user is not subscribed and there are no remaining free tries, it will show a modal
       if (error.response.status === 403) {
         proModal.onOpen();
       } else {

@@ -62,6 +62,14 @@ const routes = [
   },
 ];
 
+/**
+ * Sidebar component which allows the user to navigate to different pages.
+ * On desktop, this is always rendered. On mobile, this is rendered when the user clicks the hamburger menu.
+ * The sidebar also display the free generation counter and a button to upgrade if the user is not subscribed.
+ * @param {apiLimitCount} (number): number of free generations used
+ * @param {isPro} (boolean): whether the user is subscribed
+ * @returns (JSX.Element): sidebar component
+ */
 export const Sidebar = ({
   apiLimitCount = 0,
   isPro = false,
@@ -74,6 +82,7 @@ export const Sidebar = ({
   return (
     <div className="space-y-4 py-4 flex flex-col h-full bg-neutral-900 text-white">
       <div className="px-3 py-2 flex-1">
+        {/* Logo */}
         <Link href="/dashboard" className="flex items-center pl-3 mb-14">
           <div className="relative h-8 w-8 mr-4">
             <Image fill alt="Logo" src="/logo.png" />
@@ -82,6 +91,8 @@ export const Sidebar = ({
             Magician AI
           </h1>
         </Link>
+
+        {/* Routes */}
         <div className="space-y-1">
           {routes.map((route) => (
             <Link
@@ -102,6 +113,8 @@ export const Sidebar = ({
           ))}
         </div>
       </div>
+
+      {/* Counter */}
       <FreeCounter apiLimitCount={apiLimitCount} isPro={isPro} />
     </div>
   );

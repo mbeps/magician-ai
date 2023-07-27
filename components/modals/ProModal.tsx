@@ -20,22 +20,32 @@ import { tools } from "@/constants/constants";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
+/**
+ * Pro modal which is opened to allow the user to subscribe.
+ * @returns (JSX.Element): pro modal component
+ */
 export const ProModal = () => {
-  const proModal = useProModal();
-  const [loading, setLoading] = useState(false);
+  const proModal = useProModal(); // custom hook to open/close the modal
+  const [loading, setLoading] = useState(false); // loading state
 
+  /**
+   * Function that is called when the user clicks the subscribe button.
+   * Calls the Stripe API to get the checkout session url.
+   */
   const onSubscribe = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("/api/stripe");
+      const response = await axios.get("/api/stripe"); // get checkout session url
 
-      window.location.href = response.data.url;
+      window.location.href = response.data.url; // redirect to checkout page
     } catch (error) {
       toast.error("Could not subscribe");
     } finally {
       setLoading(false);
     }
   };
+
+  // TODO: do not render if user is subscribed
 
   return (
     <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>

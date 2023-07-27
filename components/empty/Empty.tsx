@@ -4,6 +4,11 @@ interface EmptyProps {
   label: string;
 }
 
+/**
+ * Empty component which is displayed when there is no data to be displayed.
+ * @param {label} (string): label to be displayed
+ * @returns (JSX.Element): empty component
+ */
 export const Empty = ({ label }: EmptyProps) => {
   return (
     <div className="h-full p-20 flex flex-col items-center justify-center">
