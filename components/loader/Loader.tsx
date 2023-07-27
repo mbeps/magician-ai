@@ -1,6 +1,10 @@
 import Image from "next/image";
 import React from "react";
 
+/**
+ * Loading component which is displayed when the user is waiting for something.
+ * @returns (JSX.Element): loader component
+ */
 export const Loader: React.FC = () => {
   return (
     <div className="h-full flex flex-col gap-y-4 items-center justify-center">

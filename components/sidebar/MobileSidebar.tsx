@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Sidebar } from "./Sidebar";
 
+/**
+ * Component that displays the mobile sidebar if the screen is small.
+ * This displays the user icon and a hamburger menu to open the sidebar.
+ * @param {apiLimitCount} (number): number of free generations used
+ * @param {isPro} (boolean): whether the user is subscribed
+ * @returns (JSX.Element): mobile sidebar component
+ */
 export const MobileSidebar = ({
   apiLimitCount = 0,
   isPro = false,

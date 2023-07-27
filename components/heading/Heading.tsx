@@ -10,6 +10,15 @@ interface HeadingProps {
   bgColor?: string;
 }
 
+/**
+ * Heading component used on top of a page.
+ * @param {title} (string): heading title
+ * @param {description} (string): heading description
+ * @param {icon} (LucideIcon): icon component
+ * @param {iconColor} (string): icon color
+ * @param {bgColor} (string): background color
+ * @returns (JSX.Element): heading component to be displayed on top of a page
+ */
 export const Heading = ({
   title,
   description,

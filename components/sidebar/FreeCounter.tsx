@@ -9,6 +9,13 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useProModal } from "@/hooks/useProModal";
 
+/**
+ * Component that displays the free generation counter and a button to upgrade
+ * If the user is subscribed, then the component is not rendered
+ * @param {isPro} (boolean): whether the user is subscribed
+ * @param {apiLimitCount} (number): number of free generations used
+ * @returns (JSX.Element): free counter component (null if user is subscribed)
+ */
 export const FreeCounter = ({
   isPro = false,
   apiLimitCount = 0,
