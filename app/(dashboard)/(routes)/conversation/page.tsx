@@ -20,6 +20,8 @@ import * as z from "zod";
 import { formSchema } from "./constants";
 import { toast } from "react-hot-toast";
 import { useProModal } from "@/hooks/useProModal";
+import { getToolByLabel } from "@/actions/getToolByLabel";
+import { Tool } from "@/constants/constants";
 
 type ConversationProps = {};
 
@@ -44,6 +46,12 @@ const ConversationPage: React.FC<ConversationProps> = () => {
       prompt: "",
     },
   });
+
+  const tool: Tool | null = getToolByLabel("Conversation");
+
+  if (!tool) {
+    return null;
+  }
 
   const isLoading = form.formState.isSubmitting;
 
@@ -90,11 +98,11 @@ const ConversationPage: React.FC<ConversationProps> = () => {
   return (
     <div>
       <Heading
-        title="Conversation"
-        description="Our most advanced conversation model."
-        icon={MessageSquare}
-        iconColor="text-violet-500"
-        bgColor="bg-violet-500/10"
+        title={tool!.label}
+        description={tool!.description}
+        icon={tool!.icon}
+        iconColor={tool!.color}
+        bgColor={tool!.bgColor}
       />
       <div className="px-4 lg:px-8">
         <div>

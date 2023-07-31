@@ -21,6 +21,8 @@ import * as z from "zod";
 import { formSchema } from "./constants";
 import { toast } from "react-hot-toast";
 import { useProModal } from "@/hooks/useProModal";
+import { getToolByLabel } from "@/actions/getToolByLabel";
+import { Tool } from "@/constants/constants";
 
 type CodeProps = {};
 
@@ -45,6 +47,12 @@ const CodePage: React.FC<CodeProps> = () => {
       prompt: "",
     },
   });
+
+  const tool: Tool | null = getToolByLabel("Code Generation");
+
+  if (!tool) {
+    return null;
+  }
 
   const isLoading = form.formState.isSubmitting;
 
@@ -87,11 +95,11 @@ const CodePage: React.FC<CodeProps> = () => {
   return (
     <div>
       <Heading
-        title="Code Generation"
-        description="Code generation from descriptions."
-        icon={Code}
-        iconColor="text-green-700"
-        bgColor="bg-green-700/10"
+        title={tool!.label}
+        description={tool!.description}
+        icon={tool!.icon}
+        iconColor={tool!.color}
+        bgColor={tool!.bgColor}
       />
       <div className="px-4 lg:px-8">
         <div>

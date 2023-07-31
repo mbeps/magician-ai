@@ -16,6 +16,8 @@ import * as z from "zod";
 import { formSchema } from "./constants";
 import { toast } from "react-hot-toast";
 import { useProModal } from "@/hooks/useProModal";
+import { getToolByLabel } from "@/actions/getToolByLabel";
+import { Tool } from "@/constants/constants";
 
 type MusicProps = {};
 
@@ -41,7 +43,15 @@ const MusicPage: React.FC<MusicProps> = () => {
     },
   });
 
+  const tool: Tool | null = getToolByLabel("Music Generation");
+
+  if (!tool) {
+    return null;
+  }
+
   const isLoading = form.formState.isSubmitting;
+
+  console.log("music", tool);
 
   /**
    * Submit the prompt to the API to generate music.
@@ -72,11 +82,11 @@ const MusicPage: React.FC<MusicProps> = () => {
   return (
     <div>
       <Heading
-        title="Music Generation"
-        description="Turn your prompt into music."
-        icon={Music}
-        iconColor="text-emerald-500"
-        bgColor="bg-emerald-500/10"
+        title={tool!.label}
+        description={tool!.description}
+        icon={tool!.icon}
+        iconColor={tool!.color}
+        bgColor={tool!.bgColor}
       />
       <div className="px-4 lg:px-8">
         <Form {...form}>

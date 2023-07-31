@@ -25,6 +25,8 @@ import { toast } from "react-hot-toast";
 import * as z from "zod";
 import { amountOptions, formSchema, resolutionOptions } from "./constants";
 import { useProModal } from "@/hooks/useProModal";
+import { getToolByLabel } from "@/actions/getToolByLabel";
+import { Tool } from "@/constants/constants";
 
 type ImageProps = {};
 
@@ -54,6 +56,12 @@ const ImagePage: React.FC<ImageProps> = () => {
   });
 
   const isLoading = form.formState.isSubmitting;
+
+  const tool: Tool | null = getToolByLabel("Image Generation");
+
+  if (!tool) {
+    return null;
+  }
 
   /**
    * Submit the prompt to the API to generate images.
@@ -88,11 +96,11 @@ const ImagePage: React.FC<ImageProps> = () => {
   return (
     <div>
       <Heading
-        title="Image Generation"
-        description="Turn your prompt into an image."
-        icon={ImageIcon}
-        iconColor="text-pink-700"
-        bgColor="bg-pink-700/10"
+        title={tool!.label}
+        description={tool!.description}
+        icon={tool!.icon}
+        iconColor={tool!.color}
+        bgColor={tool!.bgColor}
       />
       <div className="px-4 lg:px-8">
         <Form {...form}>

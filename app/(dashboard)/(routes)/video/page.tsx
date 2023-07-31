@@ -16,6 +16,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { formSchema } from "./constants";
 import toast from "react-hot-toast";
+import { getToolByLabel } from "@/actions/getToolByLabel";
+import { Tool } from "@/constants/constants";
 
 type VideoProps = {};
 
@@ -39,6 +41,12 @@ const VideoPage: React.FC<VideoProps> = () => {
       prompt: "",
     },
   });
+
+  const tool: Tool | null = getToolByLabel("Video Generation");
+
+  if (!tool) {
+    return null;
+  }
 
   const isLoading = form.formState.isSubmitting;
 
@@ -71,11 +79,11 @@ const VideoPage: React.FC<VideoProps> = () => {
   return (
     <div>
       <Heading
-        title="Video Generation"
-        description="Turn your prompt into video."
-        icon={VideoIcon}
-        iconColor="text-orange-700"
-        bgColor="bg-orange-700/10"
+        title={tool!.label}
+        description={tool!.description}
+        icon={tool!.icon}
+        iconColor={tool!.color}
+        bgColor={tool!.bgColor}
       />
       <div className="px-4 lg:px-8">
         <Form {...form}>
