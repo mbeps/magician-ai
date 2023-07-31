@@ -96,11 +96,11 @@ const VideoPage: React.FC<VideoProps> = () => {
               p-4 
               px-3 
               md:px-6 
-              focus-within:shadow-sm
               grid
               grid-cols-12
               gap-2
-              shadow-lg
+              shadow-lg focus-within:shadow-xl
+              transition-all duration-200
             "
           >
             <FormField

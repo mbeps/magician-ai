@@ -118,6 +118,7 @@ const ImagePage: React.FC<ImageProps> = () => {
               grid-cols-12
               gap-2
               shadow-lg
+              transition-all duration-200
             "
           >
             <FormField

@@ -99,11 +99,12 @@ const MusicPage: React.FC<MusicProps> = () => {
               p-4 
               px-3 
               md:px-6 
-              focus-within:shadow-sm
+              focus-within:shadow-xl
               grid
               grid-cols-12
               gap-2
               shadow-lg
+              transition-all duration-200Adde
             "
           >
             <FormField
