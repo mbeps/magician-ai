@@ -54,8 +54,6 @@ The Magician AI project utilizes a robust set of modern technologies to deliver 
 
 - **[Node.js](https://nodejs.org/en/)**: A JavaScript runtime environment that executes JavaScript code outside of a web browser.
 
-- **[Pusher](https://pusher.com/)**: Used for real-time bidirectional communication between users.
-
 - **[Prisma](https://www.prisma.io/)**: An open-source ORM that provides a type-safe client for efficient, bug-free queries.
 
 - **[Axios](https://axios-http.com/)**: A promise-based HTTP client used for making HTTP requests.
