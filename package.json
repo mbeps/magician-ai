@@ -55,6 +55,7 @@
     "zustand": "^4.3.9"
   },
   "devDependencies": {
+    "concurrently": "^8.2.1",
     "prisma": "^5.0.0"
   }
 }

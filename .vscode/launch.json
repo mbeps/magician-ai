@@ -5,6 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Next.js: debug server-side with Database",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "yarn concurrently \"yarn dev\" \"docker-compose --env-file .env -f docker/docker-compose.yml up db\""
+    },
+    {
+      "name": "Database: Run Only",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "docker-compose --env-file .env -f docker/docker-compose.yml up db"
+    },
+    {
       "name": "Next.js: debug server-side",
       "type": "node-terminal",
       "request": "launch",
