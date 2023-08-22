@@ -1,44 +1,85 @@
-This repository comes with Docker configuration files to enable you to build and run the Next.js application in a Docker container, a lightweight, stand-alone, and executable package that includes everything needed to run a piece of software, including the code, a runtime, libraries, environment variables, and config files.
+# **Dockerized Next.js and MySQL Full-Stack Application**
+
+This repository provides Docker configuration files for a Next.js full-stack application with a MySQL database backend. Using Docker, you can build and run the entire application stack in containers, ensuring a consistent development environment and easy deployment.
 
 # **Repository Structure**
 
-The Docker related files are located within the `docker` directory at the root of the repository. The `docker` directory has the following structure:
+The Docker-related files are located within the `docker` directory at the root of the repository. The `docker` directory has the following structure:
 
 ```
 docker/
 ├── docker-compose.yml
-└── next/
+├── next/
+│   └── Dockerfile
+└── mysql/
     └── Dockerfile
+
 ```
 
-- `docker-compose.yml`: Docker Compose file for orchestrating multi-container Docker applications.
-- `next/Dockerfile`: Dockerfile for the Next.js application.
+- `docker-compose.yml`: Docker Compose file used to orchestrate multi-container Docker applications.
+- `next/Dockerfile`: Dockerfile used to build the Next.js application.
 
 # **Docker Compose File (docker-compose.yml)**
 
-Docker Compose is a tool that allows us to define and manage multi-container Docker applications. It uses YAML files to configure the application's services and performs the creation and start-up process of all the containers with a single command.
+Docker Compose is a tool for defining and managing multi-container Docker applications. It uses YAML files to configure the application's services and handles the creation and startup of all the containers with a single command.
 
-In this project, the `docker-compose.yml` file is configured to run the Next.js application.
+The `docker-compose.yml` file for this project is configured to run both the Next.js application and a MySQL database.
 
-Here is a breakdown of what each part does:
+Here is a breakdown of what each section does:
 
 ```yaml
-version: '3'                     # The version of Docker Compose to use
-services:                        # Define the services that should be created
-  nextjs:                        # The name of the first service
-    build:                       # Specifies the options that Docker should use when building the Docker image
-      context: ..                # The build context specifies the location of your source files
-      dockerfile: docker/next/Dockerfile  # The name and location of the Dockerfile 
-    ports:                       # Expose ports
-      - 3000:3000               # Maps the internal Docker host port 3000 to the external Docker client port 3000
+version: "3"
+
+services:
+  nextjs:
+    container_name: nextjs
+    build:
+      context: .. # root of the project
+      dockerfile: docker/next/Dockerfile
+    env_file:
+      - ../.env
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+
+  db:
+    container_name: database
+    build:
+      context: .. # root of the project
+      dockerfile: docker/mysql/Dockerfile # specify the path to your custom Dockerfile
+    image: custom-mysql:8.0 # optionally specify a custom image name
+    command: --default-authentication-plugin=mysql_native_password
+    env_file:
+      - ../.env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - 3306:3306
+    volumes:
+      - mysqldata:/var/lib/mysql
+
+volumes:
+  mysqldata:
 ```
 
-By using this `docker-compose.yml`, you can bring up your entire app by using the command `docker-compose up` and bring it down using `docker-compose down` from the directory that contains the `docker-compose.yml` file. This will take care of all the intricacies of setting up the Next.js service.
+To run the MySQL database in a Docker container, use the following command:
 
-# **Services**
-## **Dockerfile for Next.js Application (next/Dockerfile)**
+```bash
+docker-compose --env-file .env -f docker/docker-compose.yml up db
+```
 
-The Dockerfile contains instructions Docker uses to build a Docker image. In this project, we have a Dockerfile specifically for our Next.js application located under `docker/next/Dockerfile`. This Dockerfile instructs Docker to create a multi-stage build for the Next.js app.
+This command uses the `docker-compose.yml` file and the `.env` file to start the MySQL database container.
 
-The Dockerfile for Next is explained in the `next` section. 
+# **Dockerfile for Next.js Application (next/Dockerfile)**
 
+The `next/Dockerfile` contains instructions that Docker uses to build the Next.js application's Docker image. It's a multi-stage build process, optimized for the Next.js app.
+
+The detailed explanation of this Dockerfile is provided in the `next` section.
+
+# **Development Database**
+
+The MySQL database is run using the `mysql` image and is configured with environment variables from the `.env` file. This allows you to easily spin up a development database with Docker. The `.env.example` file in the repository is already configured with the required variables to set up the database container. Simply copy this file to `.env` and adjust the values as needed.
