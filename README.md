@@ -110,20 +110,25 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
 
 For `OPENAI_API_KEY`, `REPLICATE_API_TOKEN`, `DATABASE_URL`, `STRIPE_API_KEY`, and `NEXT_PUBLIC_APP_URL`, refer to the respective service's documentation or settings page to get these values.
 
-## 4. **Set Up Prisma**
+# 4. **Running Database (Docker)**
+This step is necessary if you with to use the Docker image that has been provided. You can also use an alternative cloud service for MySQL. Make sure to change the connection string on the `.env` file if you wish to do so.
+
+Run the following command from the root of the project to start your MySQL container:
+```sh
+docker-compose --env-file .env -f docker/docker-compose.yml up db
+```
+
+## 5. **Set Up Prisma**
 To set up Prisma and push schema to the database, use the following commands:
 
-Install the Prisma CLI:
-```sh
-yarn global add prisma
-```
 Generate Prisma Client:
 ```sh
-npx prisma generate
+yarn prisma generate
 ```
+
 Push Prisma schema to the database:
 ```sh
-npx prisma db push --preview-feature
+yarn prisma db push 
 ```
 
 ## 5. **Set Up Stripe Webhook**
