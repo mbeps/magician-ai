@@ -1,3 +1,7 @@
+![cover](https://github.com/mbeps/magician-ai/assets/58662575/7d656288-3c1b-4c7c-887f-f2136e5a732b)
+
+---
+
 Introducing Magician AI, a highly interactive platform that leverages the power of OpenAI's GPT-3.5 for text generation and DALL-E for image generation. As well as Replicate AI for song and video generation. With our platform, you can communicate with the AI, ask it to write code, describe images or videos to be generated, and more. Our interface is user-friendly and designed to provide an exciting, creative experience. Built to handle subscriptions and payments using Stripe, users get limited initial uses and can subsequently subscribe for continued access. 
 
 # **Requirements**
