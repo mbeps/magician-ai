@@ -1,9 +1,13 @@
-name: CI/CD
+name: Merging
 
 on:
   pull_request:
     branches: 
       - main
+
+permissions:
+  contents: read
+  pull-requests: write
 
 env:
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
@@ -22,6 +26,9 @@ env:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.17.0, 20.9.0]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -47,7 +54,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: ${{ matrix.node-version }}
           cache: ${{ steps.detect-package-manager.outputs.manager }}
 
       - name: Install dependencies
@@ -59,6 +66,9 @@ jobs:
   build:
     needs: lint
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.17.0, 20.9.0]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -84,11 +94,11 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: ${{ matrix.node-version }}
           cache: ${{ steps.detect-package-manager.outputs.manager }}
 
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
 
       - name: Build 
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+        run: ${{ steps.detect-package-manager.outputs.runner }} next 
