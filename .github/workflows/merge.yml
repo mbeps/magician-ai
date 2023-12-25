@@ -2,7 +2,7 @@ name: Merging
 
 on:
   pull_request:
-    branches: 
+    branches:
       - main
 
 permissions:
@@ -25,6 +25,7 @@ env:
 
 jobs:
   lint:
+    name: Lint
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -64,6 +65,7 @@ jobs:
         run: ${{ steps.detect-package-manager.outputs.runner }} eslint '**/*.{js,ts,tsx}'
 
   build:
+    name: Build
     needs: lint
     runs-on: ubuntu-latest
     strategy:
@@ -100,5 +102,5 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
 
-      - name: Build 
-        run: ${{ steps.detect-package-manager.outputs.runner }} next 
+      - name: Build
+        run: ${{ steps.detect-package-manager.outputs.runner }} next build
