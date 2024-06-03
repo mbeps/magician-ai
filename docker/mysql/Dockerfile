@@ -1,4 +1,4 @@
-FROM mysql:8.0
+FROM mysql:8.4
 
 # Ccustom scripts or extensions here if needed
 
